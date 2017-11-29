@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "07b4c7f7-8db2-4594-86ff-017ef37c4b32",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "Mecanico": {
+      "ver": "1.0.3",
+      "uuid": "3ff8dc53-d18f-4290-a849-fde552a5d1c7",
+      "rawTextureUuid": "07b4c7f7-8db2-4594-86ff-017ef37c4b32",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 10.5,
+      "offsetY": 44.5,
+      "trimX": 157,
+      "trimY": 259,
+      "width": 707,
+      "height": 379,
+      "rawWidth": 1000,
+      "rawHeight": 986,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
