@@ -59,8 +59,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 302,
-      "y": 264
+      "x": -49,
+      "y": 272
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -108,7 +108,8 @@
       "x": 0,
       "y": 0
     },
-    "velocidade": "350"
+    "velocidade": "600",
+    "_deltaTime": 0
   },
   {
     "__type__": "cc.CircleCollider",
@@ -133,7 +134,8 @@
     "node": {
       "__id__": 1
     },
-    "_enabled": true
+    "_enabled": true,
+    "_movimentacao": null
   },
   {
     "__type__": "cc.PrefabInfo",

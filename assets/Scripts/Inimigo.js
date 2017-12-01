@@ -3,38 +3,64 @@ cc.Class({
 
     properties: {
         alvo: cc.Node,
-        _movimentacao : cc.Component,
-        _controleAnimacao : cc.Component,
-        _gameOver : cc.Node,
         distanciaAtaque : cc.Float,
-        
-       
+        distanciaPerseguir : cc.Float,
+        tempoAtaque : cc.Float,
+        _cronometroAtaque : cc.Float,
+        _controleAnimacao : cc.Component,
+        _eventoAtaque : cc.Event.CustomEvent,
+        _gameOver : cc.Node,
+        _movimentacao : cc.Component,
+
+
     },
 
     onLoad: function () {
-        this._movimentacao = this.getComponent("Movimentacao");
-        this._controleAnimacao = this.getComponent("ControleDeAnimacao");
-        this._gameOver = cc.find("GameOver");
-        this.alvo = cc.find("Personagem");
+        this.buscarDependencias();
+        this.registrarCallbackDeEventos();
+        this.criarEventosCustomizados();
+        
+        this._cronometroAtaque = this.tempoAtaque;
     },
 
-    update: function (dt) {
+    update: function (deltaTime) {
         let direcao = this.alvo.position.sub(this.node.position);
         let distancia = direcao.mag();
-        this._controleAnimacao.mudaAnimacao(direcao, "Andar");
-        this._movimentacao.setDirecao(direcao);
-        this._movimentacao.andarPraFrente();
         
-        if(distancia < this.distanciaAtaque){
-           this.alvo.getComponent("Jogador").vivo = false;
+        this._cronometroAtaque -= deltaTime;
+        
+        if(distancia < this.distanciaPerseguir){
+            this._controleAnimacao.mudaAnimacao(direcao, "Andar");
+            this._movimentacao.setDirecao(direcao);
+            this._movimentacao.andarPraFrente();
+        }
+
+        if(distancia < this.distanciaAtaque && this._cronometroAtaque < 0){
+            this.alvo.emit("SofrerDano");
+            this._cronometroAtaque = this.tempoAtaque;
         }
     },
-    
-    
-    
-    
-    
-    
-    
-    
+
+    morrer : function(event){
+        let eventoMorreu = new cc.Event.EventCustom("ZumbiMorreu", true);
+        this.node.dispatchEvent(eventoMorreu); 
+        this.node.destroy();
+    },
+
+    registrarCallbackDeEventos : function(){
+        this.node.on("SofrerDano", this.morrer, this);
+    },
+
+    buscarDependencias: function(){
+        this._movimentacao = this.getComponent("Movimentacao");
+        this._controleAnimacao = this.getComponent("ControleDeAnimacao");
+
+        this._gameOver = cc.find("GameOver");
+        this.alvo = cc.find("Personagens/Jogadora");
+    },
+
+    criarEventosCustomizados : function(){
+        this._eventoAtaque =  new cc.Event.EventCustom("SofrerDano", true);
+        this._eventoAtaque.setUserData({dano : this.dano});
+    }
 });

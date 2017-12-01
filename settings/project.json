@@ -25,10 +25,10 @@
       false
     ]
   ],
-  "design-resolution-height": 640,
-  "design-resolution-width": 960,
+  "design-resolution-height": 562,
+  "design-resolution-width": 1000,
   "excluded-modules": [],
-  "fit-height": true,
+  "fit-height": false,
   "fit-width": false,
   "group-list": [
     "default",
