@@ -84,7 +84,7 @@ cc.Class({
     },
 
     sofrerDano : function(event){
-        this._vidaAtual -= 5;
+        this._vidaAtual -= event.detail.dano;
         this.dispararEvento(this._eventoPerdeuVida,{vidaAtual : this._vidaAtual, vidaMaxima: this.vida});
 
         if(this._vidaAtual < 0){

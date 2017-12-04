@@ -3,6 +3,7 @@ cc.Class({
 
     properties: {
         alvo: cc.Node,
+        dano : cc.Float,
         distanciaAtaque : cc.Float,
         distanciaPerseguir : cc.Float,
         tempoAtaque : cc.Float,
@@ -18,27 +19,30 @@ cc.Class({
     onLoad: function () {
         this.buscarDependencias();
         this.registrarCallbackDeEventos();
-        this.criarEventosCustomizados();
-        
+
         this._cronometroAtaque = this.tempoAtaque;
     },
 
     update: function (deltaTime) {
         let direcao = this.alvo.position.sub(this.node.position);
         let distancia = direcao.mag();
-        
+
         this._cronometroAtaque -= deltaTime;
-        
+
         if(distancia < this.distanciaPerseguir){
             this._controleAnimacao.mudaAnimacao(direcao, "Andar");
-            this._movimentacao.setDirecao(direcao);
-            this._movimentacao.andarPraFrente();
+            this.movimentarInimigo(direcao);
         }
 
         if(distancia < this.distanciaAtaque && this._cronometroAtaque < 0){
-            this.alvo.emit("SofrerDano");
+            this.alvo.emit("SofrerDano", {dano: this.dano});
             this._cronometroAtaque = this.tempoAtaque;
         }
+    },
+
+    movimentarInimigo : function(direcao){
+        this._movimentacao.setDirecao(direcao);
+        this._movimentacao.andarPraFrente();    
     },
 
     morrer : function(event){
@@ -58,9 +62,4 @@ cc.Class({
         this._gameOver = cc.find("GameOver");
         this.alvo = cc.find("Personagens/Jogadora");
     },
-
-    criarEventosCustomizados : function(){
-        this._eventoAtaque =  new cc.Event.EventCustom("SofrerDano", true);
-        this._eventoAtaque.setUserData({dano : this.dano});
-    }
 });
